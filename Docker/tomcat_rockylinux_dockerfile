@@ -1,0 +1,15 @@
+FROM rockylinux:9
+
+RUN dnf install -y java-17-openjdk curl tar --allowerasing && dnf clean all
+
+RUN mkdir /opt/tomcat
+WORKDIR /opt/tomcat
+
+RUN curl --fail -L -O https://dlcdn.apache.org/tomcat/tomcat-9/v9.0.104/bin/apache-tomcat-9.0.104.tar.gz && \
+    tar -xvzf apache-tomcat-9.0.104.tar.gz  && \
+    rm apache-tomcat-9.0.104.tar.gz && \
+    mv apache-tomcat-9.0.104/* /opt/tomcat
+
+EXPOSE 8080
+
+CMD ["/opt/tomcat/bin/catalina.sh", "run"]
